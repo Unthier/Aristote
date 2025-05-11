@@ -1,0 +1,2 @@
+ALTER TABLE articles
+MODIFY COLUMN category ENUM("HORROR","ROMANCE");
