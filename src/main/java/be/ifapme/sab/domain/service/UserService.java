@@ -27,4 +27,12 @@ public class UserService {
     public void save(UserEntity user){
         userRepository.save(user);
     };
+
+    public void deleteById(int id) throws Exception{
+        Long longId = Long.valueOf(id);
+        if (!userRepository.existsById(longId)) {
+            throw new Exception("Utilisateur introuvable avec l'ID : " + id);
+        }
+        userRepository.deleteById(Long.valueOf(longId));
+    }
 }

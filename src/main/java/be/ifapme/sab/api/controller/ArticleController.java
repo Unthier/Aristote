@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/article")
@@ -49,6 +50,22 @@ public class ArticleController {
         }
 
         ArticleDTO article = articleService.retrieveBy(id);
+
+    }
+
+    @PreAuthorize("hasAnyRole(RolesEnum.USER)")
+    @GetMapping(value ="/{category}", produces = "application/json")
+    public List<ArticleDTO> getAllArticlesByCategory(@PathVariable String category) throws IllegalAccessException {
+        if (category == null || category.isEmpty() || category.trim().isEmpty()) {
+            throw new IllegalAccessException("No category provcategoryed");
+        }
+        if (!category.matches("\\d+")) {
+            throw new IllegalAccessException("Invalid category");
+        }
+
+        return articleService.retrieveAll().stream()
+            .filter(article -> String.valueOf(article.getCategory()).equals(category))
+            .collect(Collectors.toList());
 
     }
 

@@ -4,6 +4,8 @@ package be.ifapme.sab.api.controller;
 import be.ifapme.sab.api.dto.UserDTO;
 import be.ifapme.sab.db.model.UserEntity;
 import be.ifapme.sab.domain.service.UserService;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,18 +33,20 @@ public class UserController {
         return userService.getUserBy(Long.parseLong(id));
     }
 
-    /*@PostMapping("")
+    @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public void store(@RequestBody Article article) {
-        this.articleSpringDataRepository.save(article);
+    public void store(@RequestBody UserEntity article) {
+        this.userService.save(article);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Integer id) {
-        this.articleSpringDataRepository.deleteById(id);
-    }*/
+    @PreAuthorize("hasAnyRole(RolesEnum.AMIN)")
+    public void deleteById(@PathVariable Integer id) throws Exception {
+        this.userService.deleteById(id);
+    }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole(RolesEnum.AMIN)")
     public void update(@RequestBody UserEntity user) {
         this.userService.save(user);
     }

@@ -21,7 +21,7 @@ public class ArticleService {
 
          return articleRepository.findById(Long.parseLong(id))
                  .map(article -> {
-                         return new ArticleDTO(article.getName(), article.getDescription(), article.getPrice(), article.getNumber());
+                         return new ArticleDTO(article.getName(), article.getDescription(), article.getPrice(), article.getNumber(), article.getDescription());
                  }).orElseThrow(() -> new IllegalAccessException("Invalid id"));
 
 
@@ -34,7 +34,8 @@ public class ArticleService {
                          new ArticleDTO(article.getName(),
                                  article.getDescription(),
                                  article.getPrice(),
-                                 article.getNumber())
+                                 article.getNumber(),
+                                 article.getDescription())
                  ).toList();
 
 
